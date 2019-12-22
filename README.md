@@ -5,8 +5,8 @@ Example Usage:
 ```C#
 void Start()
 {
-  DeepLink.Init();
   DeepLink.OnReceived += OnReceived;
+  DeepLink.Init();
 }
 
 void OnReceived(string link)
