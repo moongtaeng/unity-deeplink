@@ -6,7 +6,7 @@ public class IosDeeplinkHandler : IDeepLinkHandler
 {
     public void Init(DeepLink receiver)
     {
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && UNITY_IOS
         UnityDeeplinks_init(receiver.gameObject.name, "HandleDeeplink");
 #endif
     }
