@@ -21,7 +21,7 @@ In AndroidManifest, the main activity section add (with your scheme and host):
   <category android:name="android.intent.category.DEFAULT"/>
   <category android:name="android.intent.category.BROWSABLE"/>
   <data
-      android:host="myhost.com"
+      android:host="myhost"
       android:scheme="myscheme"/>
 </intent-filter>
 ```
