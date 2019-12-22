@@ -16,17 +16,21 @@ public class AndroidDeepLinkHandler : IDeepLinkHandler
     public void Refresh()
     {
 #if !UNITY_EDITOR
-        AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        AndroidJavaObject currentActivity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-        AndroidJavaObject intent = currentActivity.Call<AndroidJavaObject>("getIntent");
-        string intentAction = intent.Call<string>("getAction");
-        if (intentAction == ACTION_VIEW)
+        using (AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+        using (AndroidJavaObject currentActivity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity"))
+        using (AndroidJavaObject intent = currentActivity.Call<AndroidJavaObject>("getIntent"))
         {
-            var link = intent.Call<string>("getDataString");
-            if (link != null)
+            if (intent == null)
+                return;
+            string intentAction = intent.Call<string>("getAction");
+            if (intentAction == ACTION_VIEW)
             {
-                intent.Call("setData", null);
-                receiver.HandleDeeplink(link);
+                var link = intent.Call<string>("getDataString");
+                if (link != null)
+                {
+                    intent.Call<AndroidJavaObject>("setAction", "");
+                    receiver.HandleDeeplink(link);
+                }
             }
         }
 #endif
